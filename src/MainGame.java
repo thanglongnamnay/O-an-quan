@@ -12,17 +12,22 @@ public class MainGame extends JPanel {
 	final int 	
 		xUnit=GUI.xUnit,
 		yUnit=GUI.yUnit;
+	public int speed=4;
 	public MainGame() {
 		init();
 	}
 	void init() {
-		setSize(GUI.WIDTH,GUI.HEIGHT);
 		setLocation(0,0);
-		
 		setLayout(null);
 		process=new Process(this);
 		process.init();
 		process.reDraw();
+		resize();
+	}
+	void resize() {
+		multiple=GUI.multiple;
+		setSize(GUI.WIDTH,GUI.HEIGHT);
+		process.resize();
 	}
 	void newGame() {
 		int option = JOptionPane.showConfirmDialog(this, "Bạn có mún chơi lại ko?","Retard alert",JOptionPane.YES_NO_OPTION,JOptionPane.INFORMATION_MESSAGE);

@@ -11,7 +11,7 @@ public class Box implements ActionListener{
 		num=5,
 		pos;
 	boolean[] isStone=new boolean[70];
-	private float mul;
+	private float mul=GUI.multiple/20;;
 	final int NUM_LABEL_SIZE=14;
 	private static Font 
 		fontArrow;
@@ -21,34 +21,17 @@ public class Box implements ActionListener{
 	Box(MainGame m,Process p, int pos){
 		mainGame=m;
 		process=p;
-		mul=mainGame.multiple/20;
 		fontArrow=new Font("Times New Romans",Font.PLAIN,(int)(10*mul));
 		this.pos=pos;
-		
-		for(int i=0;i<10;i++) isStone[i]=false;
-		if(pos<5) 
-			for(int i=0;i<5;i++) isStone[5*pos+i]=true;
-		else if(pos==5)
-			for(int i=0;i<10;i++) isStone[25+i]=true;
-		else if(pos<11)
-			for(int i=0;i<5;i++) isStone[5*(pos+1)+i]=true;
-		else 
-			for(int i=0;i<10;i++) isStone[60+i]=true;
-			
+		resetStone();
 		create();
 		createArrow();
+		resize();
 		mainGame.add(boxBtn);
 	}
 	void create() { //pos = 0~11
 		boxBtn=new JButton();
 		boxBtn.setFocusable(false);
-		int col,row;
-		if(pos<6) col=pos+1;
-			else if(pos<11) col=11-pos;
-				else col=0;
-		if(pos<6) row=1;
-			else row=0;
-		if(col!=0&&col!=6) boxBtn.setBounds((int)(38*mul+col*39*mul),(int)(58*mul+row*36*mul),(int)(18*mul),(int)(18*mul));
 		setOutlook(boxBtn);
 		boxBtn.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
@@ -58,17 +41,10 @@ public class Box implements ActionListener{
 				if(team==1&&pos<6&&num>0) showArrow();
 			}
 		});
-		if(col!=0&&col!=6) numLabel.setBounds((int)(28*mul+col*39*mul),(int)(52*mul+row*36*mul),(int)(NUM_LABEL_SIZE*mul),(int)(NUM_LABEL_SIZE*mul));
-		else numLabel.setBounds((int)(50*mul+col*35*mul),(int)(58*mul),(int)(NUM_LABEL_SIZE*mul),(int)(NUM_LABEL_SIZE*mul));
 		numLabel.setFont(fontArrow);
 		mainGame.add(numLabel);
 		mainGame.add(boxBtn);
 	}
-	void change(int n){
-		num=n;
-		numLabel.setText(Integer.toString(num));
-	}
-
 	void createArrow() {
 		int row,col;
 		if(pos<6) col=pos+1;
@@ -92,13 +68,58 @@ public class Box implements ActionListener{
 				process.move(pos,chieu,false);
 			}
 		};
-		rArrow.setBounds((int)(66*mul+col*39*mul),(int)(63*mul+row*35*mul),(int)(14*mul),(int)(14*mul));
-		lArrow.setBounds((int)(54*mul+(col-1)*39*mul),(int)(63*mul+row*35*mul),(int)(14*mul),(int)(14*mul));
 		setOutlook(rArrow);
 		setOutlook(lArrow);
 		rArrow.addActionListener(r);
 		lArrow.addActionListener(l);
 	}
+	void resize() {
+		int col,row;
+		mul=GUI.multiple/20;
+		fontArrow=new Font("Times New Romans",Font.PLAIN,(int)(10*mul));
+		setOutlook(boxBtn);
+		setOutlook(rArrow);
+		setOutlook(lArrow);
+		numLabel.setFont(fontArrow);
+		if(pos<6) col=pos+1;
+			else if(pos<11) col=11-pos;
+				else col=0;
+		if(pos<6) row=1;
+			else row=0;
+		if(col!=0&&col!=6) 
+			boxBtn.setBounds(
+				(int)(38*mul+col*39*mul),
+				(int)(58*mul+row*36*mul),
+				(int)(18*mul),
+				(int)(18*mul));
+		if(col!=0&&col!=6) 
+			numLabel.setBounds(
+				(int)(28*mul+col*39*mul),
+				(int)(52*mul+row*36*mul),
+				(int)(NUM_LABEL_SIZE*mul),
+				(int)(NUM_LABEL_SIZE*mul));
+		else 
+			numLabel.setBounds(
+				(int)(50*mul+col*35*mul),
+				(int)(58*mul),
+				(int)(NUM_LABEL_SIZE*mul),
+				(int)(NUM_LABEL_SIZE*mul));
+		rArrow.setBounds(
+			(int)(66*mul+col*39*mul),
+			(int)(63*mul+row*35*mul),
+			(int)(14*mul),
+			(int)(14*mul));
+		lArrow.setBounds(
+			(int)(54*mul+(col-1)*39*mul),
+			(int)(63*mul+row*35*mul),
+			(int)(14*mul),
+			(int)(14*mul));
+	}
+	void change(int n){
+		num=n;
+		numLabel.setText(Integer.toString(num));
+	}
+
 	void showArrow() {
 		mainGame.add(rArrow);
 		mainGame.add(lArrow);
@@ -112,6 +133,18 @@ public class Box implements ActionListener{
 			JOptionPane.showConfirmDialog(null, e);
 		}
 		mainGame.repaint();
+	}
+	void resetStone() {
+		for(int i=0;i<70;i++) isStone[i]=false;
+		if(pos<5) 
+			for(int i=0;i<5;i++) isStone[5*pos+i]=true;
+		else if(pos==5)
+			for(int i=0;i<10;i++) isStone[25+i]=true;
+		else if(pos<11)
+			for(int i=0;i<5;i++) isStone[5*(pos+1)+i]=true;
+		else 
+			for(int i=0;i<10;i++) isStone[60+i]=true;
+			
 	}
 	void setOutlook(JButton b){
 		b.setFocusPainted(false);
