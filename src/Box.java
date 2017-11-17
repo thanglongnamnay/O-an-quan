@@ -7,18 +7,34 @@ import javax.swing.*;
 public class Box implements ActionListener{
 	private JButton boxBtn, lArrow, rArrow;
 	private JLabel numLabel=new JLabel("5");
-	private int num=5;
-	private static Font fontArrow=new Font("Times New Romans",Font.PLAIN,40);
-	private static Font fontStone=new Font("Times New Romans",Font.BOLD,30);
-	private int pos,stoneCount;
+	private int 
+		num=5,
+		pos;
+	boolean[] isStone=new boolean[70];
+	private float mul;
+	final int NUM_LABEL_SIZE=14;
+	private static Font 
+		fontArrow;
 	private Process process;
 	private MainGame mainGame;
 	private JLabel[] stone=new JLabel[69];
-	final int NUM_LABEL_SIZE=55;
 	Box(MainGame m,Process p, int pos){
 		mainGame=m;
 		process=p;
+		mul=mainGame.multiple/20;
+		fontArrow=new Font("Times New Romans",Font.PLAIN,(int)(10*mul));
 		this.pos=pos;
+		
+		for(int i=0;i<10;i++) isStone[i]=false;
+		if(pos<5) 
+			for(int i=0;i<5;i++) isStone[5*pos+i]=true;
+		else if(pos==5)
+			for(int i=0;i<10;i++) isStone[25+i]=true;
+		else if(pos<11)
+			for(int i=0;i<5;i++) isStone[5*(pos+1)+i]=true;
+		else 
+			for(int i=0;i<10;i++) isStone[60+i]=true;
+			
 		create();
 		createArrow();
 		mainGame.add(boxBtn);
@@ -32,8 +48,7 @@ public class Box implements ActionListener{
 				else col=0;
 		if(pos<6) row=1;
 			else row=0;
-		if(col!=0&&col!=6) boxBtn.setBounds(145+col*155,210+row*145,70,70);
-			else boxBtn.setBounds(155+col*155, 295, 50, 50);
+		if(col!=0&&col!=6) boxBtn.setBounds((int)(38*mul+col*39*mul),(int)(58*mul+row*36*mul),(int)(18*mul),(int)(18*mul));
 		setOutlook(boxBtn);
 		boxBtn.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
@@ -43,29 +58,15 @@ public class Box implements ActionListener{
 				if(team==1&&pos<6&&num>0) showArrow();
 			}
 		});
-		if(col!=0&&col!=6) numLabel.setBounds(110+col*155,175+row*145,NUM_LABEL_SIZE,NUM_LABEL_SIZE);
-		else numLabel.setBounds(200+col*140,200,NUM_LABEL_SIZE,NUM_LABEL_SIZE);
+		if(col!=0&&col!=6) numLabel.setBounds((int)(28*mul+col*39*mul),(int)(52*mul+row*36*mul),(int)(NUM_LABEL_SIZE*mul),(int)(NUM_LABEL_SIZE*mul));
+		else numLabel.setBounds((int)(50*mul+col*35*mul),(int)(58*mul),(int)(NUM_LABEL_SIZE*mul),(int)(NUM_LABEL_SIZE*mul));
 		numLabel.setFont(fontArrow);
-
-		for(int i=1;i<69;i++) {
-			stone[i]=new JLabel("\u2B24");
-			stone[i].setFont(fontStone);
-			Random r=new Random();
-			stone[i].setForeground(Color.getHSBColor(r.nextFloat()*255,r.nextFloat()*255,r.nextFloat()*255));
-			if(col!=0&&col!=6) stone[i].setBounds(115+col*155+r.nextInt(100),180+row*145+r.nextInt(80),80,80);
-			else stone[i].setBounds(115+col*155+r.nextInt(100),245+r.nextInt(80),80,80);
-		}
 		mainGame.add(numLabel);
 		mainGame.add(boxBtn);
 	}
 	void change(int n){
-		removeAllStone();
 		num=n;
 		numLabel.setText(Integer.toString(num));
-		for(int i=1; i<=num; i++) mainGame.add(stone[i]);
-	}
-	void removeAllStone() {
-		for(int i=1; i<=num; i++) mainGame.remove(stone[i]);
 	}
 
 	void createArrow() {
@@ -91,8 +92,8 @@ public class Box implements ActionListener{
 				process.move(pos,chieu,false);
 			}
 		};
-		rArrow.setBounds(252+col*155,220+row*140,50,50);
-		lArrow.setBounds(202+(col-1)*155,220+row*140,50,50);
+		rArrow.setBounds((int)(66*mul+col*39*mul),(int)(63*mul+row*35*mul),(int)(14*mul),(int)(14*mul));
+		lArrow.setBounds((int)(54*mul+(col-1)*39*mul),(int)(63*mul+row*35*mul),(int)(14*mul),(int)(14*mul));
 		setOutlook(rArrow);
 		setOutlook(lArrow);
 		rArrow.addActionListener(r);

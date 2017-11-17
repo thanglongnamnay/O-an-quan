@@ -6,18 +6,36 @@ public class Process {
 	MainGame mainGame;
 	Box[] box=new Box[12];
 	ScoreBox[] scBox=new ScoreBox[12];
+	Stone[] stone=new Stone[70];
+	
 	public Process(MainGame m){
 		mainGame=m;
 	}
-	public void reDraw() {
-	    for(int i=0;i<12;i++) box[i]=new Box(mainGame,this,i);
+	public void init() {
+		for(int i=0;i<12;i++) box[i]=new Box(mainGame,this,i);
 		scBox[0]=new ScoreBox(mainGame,0);
 		scBox[1]=new ScoreBox(mainGame,1);
+	}
+	public void reDraw() {  
+		mainGame.currentTeam=0;
 		for(int i=0;i<12;i++) box[i].change(mainGame.getNumberInBox());
 		box[5].change(mainGame.getNumberInScoreBox());
 		box[11].change(mainGame.getNumberInScoreBox());
 		scBox[0].change(0);
 		scBox[0].change(0);
+		int count=0;
+		for(int i=0;i<12;i++) {
+			if(i!=5&&i!=11)
+				for(int j=0;j<5;j++) {
+					stone[count]=new Stone(mainGame,i);
+					count++;
+				}
+			else 
+				for(int j=0;j<10;j++) {
+					stone[count]=new Stone(mainGame,i);
+					count++;
+				}
+		}
 	}
 	public void removeAllArrow() {
 		for(int i=0;i<12;i++) box[i].removeArrow();
@@ -32,15 +50,14 @@ public class Process {
 					int temp=calNewPos(pos,i*direction);
 					box[pos].change(box[pos].getNum()-1);
 					box[temp].change(box[temp].getNum()+1);
-					try {
-						mainGame.paintImmediately(mainGame.getVisibleRect());
-						Thread.sleep(500);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					int j=0;
+					while(box[pos].isStone[j]==false)
+						j++;
+					box[pos].isStone[j]=false;
+					box[temp].isStone[j]=true;
+					System.out.println(j);
+					stone[j].move(temp);
 				}
-				box[pos].setColor(Color.BLACK);
 				int vtSau=calNewPos(pos,(num+1)*direction);
 				move(vtSau,direction,false);
 			}else mainGame.nextTurn();
@@ -65,8 +82,20 @@ public class Process {
 		return (src+1200+step)%12;
 	}
 	void kill(int team,int pos){
-		int temp=scBox[team].getNum();
+		int 
+			temp=scBox[team].getNum(),
+			boxTemp=box[pos].getNum();
 		scBox[team].change(temp+box[pos].getNum());
+		System.out.println(team-2);
+		for(int i=0;i<boxTemp;i++) {
+			int j=0;
+			while(box[pos].isStone[j]==false)
+				j++;
+			System.out.println(j);
+			box[pos].isStone[j]=false;
+			scBox[team].isStone[j]=true;
+			stone[j].move(team-2);
+		}
 		box[pos].change(0);
 	}
 	void nextTurn() {

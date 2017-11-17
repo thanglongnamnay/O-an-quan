@@ -3,20 +3,26 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 public class GUI extends JFrame implements ActionListener{
-	public static final int WIDTH=1280;
-	public static final int HEIGHT=720;
+	public static final int 
+		xUnit=16,
+		yUnit=9;
+	public static int multiple=80;
 	private JMenuBar mb;
 	private JMenu mGame,mHelp;  
-	private JMenuItem miGameMoi,miCaiDat,miThoat;
-	private JMenuItem miTroGiup, miThongTin;
+	private JMenuItem 
+		miGameMoi,
+		miCaiDat,
+		miThoat,
+		miTroGiup, 
+		miThongTin;
 	MainGame mainGame;
 	private Font fontMenu=new Font("SansSerif",Font.BOLD,18);
 	public GUI(){
 		init();
 	}
 	void init(){
-		setTitle("");
-		setSize(WIDTH,HEIGHT);
+		setTitle("Ô ăn quan 1.0");
+		setSize(xUnit*multiple,yUnit*multiple+50);
 		setResizable(false);
 		addMenu();
 		setLayout(new CardLayout());

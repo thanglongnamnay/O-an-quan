@@ -4,7 +4,14 @@ import java.awt.*;
   
 public class MainGame extends JPanel {  
 	Process process;
-	int currentTeam=0,numberInBox=5,numberInScoreBox=10;
+	int 
+		currentTeam=0,
+		numberInBox=5,
+		numberInScoreBox=10,
+		multiple=GUI.multiple;
+	final int 	
+		xUnit=GUI.xUnit,
+		yUnit=GUI.yUnit;
 	public MainGame() {
 		init();
 	}
@@ -14,10 +21,12 @@ public class MainGame extends JPanel {
 		
 		setLayout(null);
 		process=new Process(this);
-		newGame();
+		process.init();
+		process.reDraw();
 	}
 	void newGame() {
-		process.reDraw();
+		int option = JOptionPane.showConfirmDialog(this, "Bạn có mún chơi lại ko?","Retard alert",JOptionPane.YES_NO_OPTION,JOptionPane.INFORMATION_MESSAGE);
+		if(option==JOptionPane.YES_OPTION)	process.reDraw();
 	}
 	public void nextTurn() {
 		currentTeam=1-currentTeam;
@@ -44,8 +53,6 @@ public class MainGame extends JPanel {
     protected void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         Image i=new ImageIcon("src\\background.jpg").getImage();
-        g2d.drawImage(i, 0, -30, GUI.WIDTH, GUI.HEIGHT, null);
-        Image j = new ImageIcon("src\\stone.jpg").getImage();
-        g2d.drawImage(j, 100, 100, 100, 100, null);
+        g2d.drawImage(i, 0, 0, xUnit*multiple, yUnit*multiple, null);
     }
 } 
