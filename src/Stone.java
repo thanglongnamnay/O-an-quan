@@ -49,12 +49,16 @@ public class Stone extends JLabel  {
 		}
 		X=newX;
 		Y=newY;
+		this.pos=pos;
 	}
 	public void quickMove(int pos) {
 		int 
 			newX=calcX(pos),
 			newY=calcY(pos);
 		setLocation(newX,newY);
+		X=newX;
+		Y=newY;
+		this.pos=pos;
 	}
 	int calcX(int pos) {
 		int col=calcCol(pos);
