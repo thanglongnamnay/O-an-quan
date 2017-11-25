@@ -62,7 +62,8 @@ public class Stone extends JLabel  {
 	}
 	int calcX(int pos) {
 		int col=calcCol(pos);
-		return (int)(29*mul+col*39*mul+r.nextInt((int)(25*mul)));
+		if(pos!=5&&pos!=11&&pos>=0)	return (int)(29*mul+col*39*mul+r.nextInt((int)(25*mul)));
+		else return (int)(24*mul+col*39*mul+r.nextInt((int)(30*mul)));
 	}
 	int calcY(int pos) {
 		int row=calcRow(pos);
@@ -71,8 +72,8 @@ public class Stone extends JLabel  {
 		if(pos>=0) 
 			return (int)(69*mul+r.nextInt((int)(20*mul)));
 		if(pos==-2) 
-			return (int)(11*mul+r.nextInt((int)(20*mul)));
-		return (int)(136*mul+r.nextInt((int)(20*mul)));
+			return (int)(9*mul+r.nextInt((int)(17*mul)));
+		return (int)(134*mul+r.nextInt((int)(17*mul)));//pos==-1
 	}
 	int calcCol(int pos) {
 		if(pos<0) return 3; 

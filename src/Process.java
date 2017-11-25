@@ -5,7 +5,7 @@ import javax.swing.JOptionPane;
 public class Process {
 	MainGame mainGame;
 	Box[] box=new Box[12];
-	ScoreBox[] scBox=new ScoreBox[12];
+	ScoreBox[] scBox=new ScoreBox[2];
 	Stone[] stone=new Stone[70];
 	
 	public Process(MainGame m){
@@ -54,6 +54,7 @@ public class Process {
 		box[11].change(mainGame.getNumberInScoreBox());
 		scBox[0].change(0);
 		scBox[1].change(0);
+		scBox[0].setTurn(true);
 	}
 	public void resize() {
 		for(int i=0;i<12;i++) box[i].resize();
@@ -133,6 +134,8 @@ public class Process {
 		}
 		if(result==0) victory(1-mainGame.getCurTeam());
 		if(result==1) spread(mainGame.getCurTeam());
+		scBox[mainGame.getCurTeam()].setTurn(true);
+		scBox[1-mainGame.getCurTeam()].setTurn(false);
 	}
 	void victory(int team) {
 		if(team>-1) JOptionPane.showConfirmDialog(mainGame,"Người chơi "+(team+1)+" thắng","Xong phim",JOptionPane.DEFAULT_OPTION);

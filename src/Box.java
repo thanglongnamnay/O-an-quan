@@ -1,5 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
 import javax.swing.*;
@@ -18,6 +20,7 @@ public class Box implements ActionListener{
 	private Process process;
 	private MainGame mainGame;
 	private JLabel[] stone=new JLabel[69];
+	private FontRenderContext frc;
 	Box(MainGame m,Process p, int pos){
 		mainGame=m;
 		process=p;
@@ -28,6 +31,7 @@ public class Box implements ActionListener{
 		createArrow();
 		resize();
 		mainGame.add(boxBtn);
+		
 	}
 	void create() { //pos = 0~11
 		boxBtn=new JButton();
@@ -88,8 +92,8 @@ public class Box implements ActionListener{
 			else row=0;
 		if(col!=0&&col!=6) 
 			boxBtn.setBounds(
-				(int)(38*mul+col*39*mul),
-				(int)(58*mul+row*36*mul),
+				(int)(36*mul+col*39*mul),
+				(int)(60*mul+row*38*mul),
 				(int)(18*mul),
 				(int)(18*mul));
 		if(col!=0&&col!=6) 
@@ -152,6 +156,7 @@ public class Box implements ActionListener{
 		b.setMargin(new Insets(0,0,0,0));
 		b.setHorizontalAlignment(SwingConstants.LEFT);
 		b.setVerticalAlignment(SwingConstants.TOP);
+		//bug màu nút.
 		b.setContentAreaFilled(false);
 		b.setBorderPainted(false);
 	}

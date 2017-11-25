@@ -36,7 +36,6 @@ public class MainGame extends JPanel {
 	public void nextTurn() {
 		currentTeam=1-currentTeam;
 		process.nextTurn();
-		
 	}
 	public int getCurTeam() {
 		return currentTeam;
