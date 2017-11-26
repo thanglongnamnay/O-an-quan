@@ -1,7 +1,8 @@
-
+package master;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.List;
 public class GUI extends JFrame implements ActionListener{
 	public static final int 
 		xUnit=16,
@@ -24,7 +25,8 @@ public class GUI extends JFrame implements ActionListener{
 		setTitle("Ô ăn quan 2.0");
 		setResizable(false);
 		addMenu();
-		setLayout(new CardLayout());
+		ImageIcon icon=new ImageIcon("\\src\\images\\stone.jpg");
+		setIconImage(icon.getImage());
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         mainGame=new MainGame();
         add(mainGame);

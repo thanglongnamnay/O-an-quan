@@ -1,4 +1,4 @@
-
+package master;
 import javax.swing.*;
 import java.awt.*;
   
@@ -56,7 +56,8 @@ public class MainGame extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        Image i=new ImageIcon("src\\background.jpg").getImage();
+        Image i=new ImageIcon("src\\images\\background.jpg").getImage();
         g2d.drawImage(i, 0, 0, xUnit*multiple, yUnit*multiple, null);
+        System.out.println(GUI.class.getResource("../"));
     }
 } 

@@ -1,4 +1,4 @@
-
+package master;
 import java.awt.*;
 import java.awt.*;
 
@@ -19,7 +19,7 @@ public class ScoreBox{
 		scBoxLabel.setFocusable(false);
 		scBoxLabel.setFont(fontArrow);
 		mainGame.add(scBoxLabel);
-		flag=new ImageIcon("src\\flag"+Integer.toString(2-team)+".jpg");
+		flag=new ImageIcon("src\\images\\flag"+Integer.toString(2-team)+".jpg");
 		turnLabel=new JLabel(flag);
 		turnLabel.setFocusable(false);
 		turnLabel.setFont(fontArrow);

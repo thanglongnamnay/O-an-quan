@@ -1,3 +1,4 @@
+package master;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.font.FontRenderContext;
@@ -9,18 +10,16 @@ import javax.swing.*;
 public class Box implements ActionListener{
 	private JButton boxBtn, lArrow, rArrow;
 	private JLabel numLabel=new JLabel("5");
-	private int 
-		num=5,
-		pos;
+	private int	num=5,
+				pos;
 	boolean[] isStone=new boolean[70];
 	private float mul=GUI.multiple/20;;
-	final int NUM_LABEL_SIZE=14;
-	private static Font 
-		fontArrow;
+	final int	NUM_LABEL_SIZE=14,
+				BUTTON_WIDTH=20,
+				BUTTON_HEIGHT=37;
+	private static Font	fontArrow;
 	private Process process;
 	private MainGame mainGame;
-	private JLabel[] stone=new JLabel[69];
-	private FontRenderContext frc;
 	Box(MainGame m,Process p, int pos){
 		mainGame=m;
 		process=p;
@@ -50,10 +49,7 @@ public class Box implements ActionListener{
 		mainGame.add(boxBtn);
 	}
 	void createArrow() {
-		int row,col;
-		if(pos<6) col=pos+1;
-			else if(pos<11) col=11-pos;
-				else col=0;
+		int row;
 		if(pos<6) row=1;
 			else row=0;
 		rArrow=new JButton("\u25B6");
@@ -76,6 +72,10 @@ public class Box implements ActionListener{
 		setOutlook(lArrow);
 		rArrow.addActionListener(r);
 		lArrow.addActionListener(l);
+		mainGame.add(rArrow);
+		mainGame.add(lArrow);
+		rArrow.setVisible(false);
+		lArrow.setVisible(false);
 	}
 	void resize() {
 		int col,row;
@@ -92,10 +92,10 @@ public class Box implements ActionListener{
 			else row=0;
 		if(col!=0&&col!=6) 
 			boxBtn.setBounds(
-				(int)(36*mul+col*39*mul),
-				(int)(60*mul+row*38*mul),
-				(int)(18*mul),
-				(int)(18*mul));
+				(int)(35*mul+col*39*mul),
+				(int)(49*mul+row*38*mul),
+				(int)(BUTTON_WIDTH*mul),
+				(int)(BUTTON_HEIGHT*mul));
 		if(col!=0&&col!=6) 
 			numLabel.setBounds(
 				(int)(28*mul+col*39*mul),
@@ -109,14 +109,14 @@ public class Box implements ActionListener{
 				(int)(NUM_LABEL_SIZE*mul),
 				(int)(NUM_LABEL_SIZE*mul));
 		rArrow.setBounds(
-			(int)(66*mul+col*39*mul),
+			(int)(65*mul+col*39*mul),
 			(int)(63*mul+row*35*mul),
-			(int)(14*mul),
+			(int)(12*mul),
 			(int)(14*mul));
 		lArrow.setBounds(
 			(int)(54*mul+(col-1)*39*mul),
 			(int)(63*mul+row*35*mul),
-			(int)(14*mul),
+			(int)(12*mul),
 			(int)(14*mul));
 	}
 	void change(int n){
@@ -125,17 +125,13 @@ public class Box implements ActionListener{
 	}
 
 	void showArrow() {
-		mainGame.add(rArrow);
-		mainGame.add(lArrow);
+		rArrow.setVisible(true);
+		lArrow.setVisible(true);
 		mainGame.repaint();
 	}
 	void removeArrow() {
-		try {
-			mainGame.remove(lArrow);
-			mainGame.remove(rArrow);
-		}catch(Exception e) {
-			JOptionPane.showConfirmDialog(null, e);
-		}
+		rArrow.setVisible(false);
+		lArrow.setVisible(false);
 		mainGame.repaint();
 	}
 	void resetStone() {
@@ -153,9 +149,11 @@ public class Box implements ActionListener{
 	void setOutlook(JButton b){
 		b.setFocusPainted(false);
 		b.setFont(fontArrow);
+		
 		b.setMargin(new Insets(0,0,0,0));
 		b.setHorizontalAlignment(SwingConstants.LEFT);
 		b.setVerticalAlignment(SwingConstants.TOP);
+		
 		//bug màu nút.
 		b.setContentAreaFilled(false);
 		b.setBorderPainted(false);
