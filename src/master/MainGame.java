@@ -58,6 +58,5 @@ public class MainGame extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
         Image i=new ImageIcon("src\\images\\background.jpg").getImage();
         g2d.drawImage(i, 0, 0, xUnit*multiple, yUnit*multiple, null);
-        System.out.println(GUI.class.getResource("../"));
     }
 } 

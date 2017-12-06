@@ -6,15 +6,14 @@ import java.util.Random;
 import javax.swing.*;
 public class Stone extends JLabel  {
 	private int 
-		pos,
 		X=0,
 		Y=0,
 		mul=GUI.multiple/20;
+	private final int BASE_SPEED=200;
 	MainGame mg;
 	Random r=new Random();
 	public Stone(MainGame m,int pos){
 		mg=m;
-		this.pos=pos;
 		mg.add(this);
 		setText("\u2B24");
 		setForeground(Color.getHSBColor(
@@ -24,9 +23,10 @@ public class Stone extends JLabel  {
 		resize();
 	}
 	public void resize() {
+		int tempMul=mul;
 		mul=GUI.multiple/20;
-		X=calcX(pos);
-		Y=calcY(pos);
+		X=X*mul/tempMul;
+		Y=Y*mul/tempMul;
 		setBounds(X,Y,18*mul,18*mul);
 		setFont(new Font("Times New Romans",Font.PLAIN,(int)(10*mul)));
 	}
@@ -35,7 +35,7 @@ public class Stone extends JLabel  {
 			newX=calcX(pos),
 			newY=calcY(pos);
 		int speed=mg.speed;
-		int time=(pos>=0)? 200/speed:20/speed;
+		int time=(pos>=0)? BASE_SPEED/speed:BASE_SPEED/10/speed;
 		for(int i=0;i<=time;i++) {
 			try {
 				setLocation(
@@ -50,7 +50,6 @@ public class Stone extends JLabel  {
 		}
 		X=newX;
 		Y=newY;
-		this.pos=pos;
 	}
 	public void quickMove(int pos) {
 		int 
@@ -59,12 +58,13 @@ public class Stone extends JLabel  {
 		setLocation(newX,newY);
 		X=newX;
 		Y=newY;
-		this.pos=pos;
 	}
 	int calcX(int pos) {
 		int col=calcCol(pos);
-		if(pos!=5&&pos!=11&&pos>=0)	return (int)(29*mul+col*39*mul+r.nextInt((int)(25*mul)));
-		else return (int)(24*mul+col*39*mul+r.nextInt((int)(30*mul)));
+		if(pos!=5&&pos!=11&&pos>=0)	
+			return (int)(29*mul+col*39*mul+r.nextInt((int)(25*mul)));
+		else 
+			return (int)(24*mul+col*39*mul+r.nextInt((int)(30*mul)));
 	}
 	int calcY(int pos) {
 		int row=calcRow(pos);
@@ -74,16 +74,16 @@ public class Stone extends JLabel  {
 			return (int)(69*mul+r.nextInt((int)(20*mul)));
 		if(pos==-2) 
 			return (int)(9*mul+r.nextInt((int)(17*mul)));
-		return (int)(134*mul+r.nextInt((int)(17*mul)));//pos==-1
+			return (int)(134*mul+r.nextInt((int)(17*mul)));//pos==-1
 	}
 	int calcCol(int pos) {
-		if(pos<0) return 3; 
-		if(pos<6) return(pos+1);
-		else if(pos<11) return(11-pos);
-			else return 0;
+		if(pos<0) 	return 3; 
+		if(pos<6) 	return(pos+1);
+		if(pos<11) 	return(11-pos);
+			 		return 0;
 	}
 	int calcRow(int pos) {
-		if(pos<6) return 1;
-			else return 0;
+		if(pos<6) 	return 1;
+			else 	return 0;
 	}
 }

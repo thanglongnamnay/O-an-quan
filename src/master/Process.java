@@ -97,14 +97,16 @@ public class Process {
 	public int check(int team) {
 		//check if there is a win situation or out of stones in current team.
 		if(box[5].getNum()==0&&box[11].getNum()==0) return -1;
-		if(scBox[team].getNum()<5&&total(team)==0) return 0;
-		if(scBox[team].getNum()>5&&total(team)==0) return 1;
+		if(scBox[team].getNum()<5&&total(team)==0) 	return 0;
+		if(scBox[team].getNum()>5&&total(team)==0) 	return 1;
 		return 2;
 	}
 	int total(int team) {
 		//get the total of stones on normal box.
-		if(team==0)	return box[6].getNum()+box[7].getNum()+box[8].getNum()+box[9].getNum()+box[10].getNum();
-		else return box[0].getNum()+box[1].getNum()+box[2].getNum()+box[3].getNum()+box[4].getNum();
+		if(team==0)	
+			return box[6].getNum()+box[7].getNum()+box[8].getNum()+box[9].getNum()+box[10].getNum();
+		else 
+			return box[0].getNum()+box[1].getNum()+box[2].getNum()+box[3].getNum()+box[4].getNum();
 	}
 	int calNewPos(int src,int step){
 		return (src+1200+step)%12;
@@ -113,16 +115,16 @@ public class Process {
 		int 
 			temp=scBox[team].getNum(),
 			boxTemp=box[pos].getNum();
-		scBox[team].change(temp+box[pos].getNum());
 		for(int i=0;i<boxTemp;i++) {
 			int j=0;
 			while(box[pos].isStone[j]==false)
 				j++;
 			box[pos].isStone[j]=false;
 			scBox[team].isStone[j]=true;
+			box[pos].change(box[pos].getNum()-1);
 			stone[j].move(team-2);
+			scBox[team].change(1+scBox[team].getNum());
 		}
-		box[pos].change(0);
 	}
 	void nextTurn() {
 		int result=check(mainGame.getCurTeam());
@@ -157,6 +159,7 @@ public class Process {
 		scBox[team].change(scBox[team].getNum()-1);
 		while(!scBox[team].isStone[j])
 			j++;
+		
 		stone[j].move(pos);
 		scBox[team].isStone[j]=false;
 		box[pos].change(1);
